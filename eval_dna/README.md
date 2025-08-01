@@ -24,13 +24,6 @@ HuggingFace: your_huggingface_token_here
 Anthropic: your_anthropic_api_key_here
 ```
 
-または環境変数で設定：
-
-```bash
-export OPENAI_API_KEY="your_openai_api_key_here"
-export GEMINI_API_KEY="your_gemini_api_key_here"
-```
-
 ## 使用方法
 
 ## dna実行用のslurmファイル
@@ -68,10 +61,12 @@ echo "HF cache dir : $HF_HOME"                   # デバッグ用
 nvidia-smi -i 0,1,2,3,4,5,6,7 -l 3 > nvidia-smi.log &
 pid_nvsmi=$!
 
+#--- 必要なディレクトリを作成 -----------------------------------------
+mkdir -p evaluation_results
+
 #--- vLLM 起動（8GPU）----------------------------------------------
 vllm serve Qwen/Qwen3-32B \
   --tensor-parallel-size 8 \
-  --enable-reasoning \
   --reasoning-parser qwen3 \
   --rope-scaling '{"rope_type":"yarn","factor":4.0,"original_max_position_embeddings":32768}' \
   --max-model-len 131072 \
@@ -92,7 +87,7 @@ python llm-compe-eval/evaluate_huggingface_models.py \
     --dataset_path datasets/Instruction/do_not_answer_en.csv \
     --output_dir evaluation_results \
     --use_vllm \
-    --max_questions 100 \
+    --max_questions 50 \
     --vllm_base_url http://localhost:8000/v1 > predict.log 2>&1
 
 #--- 後片付け -------------------------------------------------------
