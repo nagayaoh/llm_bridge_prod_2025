@@ -21,6 +21,7 @@ LLM学習手順です。ファインチューニング，強化学習を含み�
 LLM評価手順です。  
 [Humanity's Last Exam](eval_hle/README.md)  
 [Do Not Answer](eval_dna/README.md)  
+[運営でdan及びhleの動作確認済みパッケージリスト](package-list.txt)
 
 ## Contributors
 
