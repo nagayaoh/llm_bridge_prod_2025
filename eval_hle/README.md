@@ -26,8 +26,8 @@ conda install -c conda-forge --file requirements.txt
 pip install \
   --index-url https://download.pytorch.org/whl/cu126 \
   torch==2.7.1+cu126 torchvision==0.22.1+cu126 torchaudio==2.7.1+cu126 \
-  vllm>=0.4.2 \
-  --extra-index-url https://pypi.org/simple\
+  --extra-index-url https://pypi.org/simple
+pip install --no-deps vllm>=0.4.2
 ```
 
 ## hle 推論用のslurmファイル
@@ -64,10 +64,13 @@ echo "HF cache dir : $HF_HOME"                   # デバッグ用
 nvidia-smi -i 0,1,2,3,4,5,6,7 -l 3 > nvidia-smi.log &
 pid_nvsmi=$!
 
+#--- 必要なディレクトリを作成 -----------------------------------------
+mkdir -p predictions
+mkdir -p judged
+
 #--- vLLM 起動（8GPU）----------------------------------------------
 vllm serve Qwen/Qwen3-32B \
   --tensor-parallel-size 8 \
-  --enable-reasoning \
   --reasoning-parser qwen3 \
   --rope-scaling '{"rope_type":"yarn","factor":4.0,"original_max_position_embeddings":32768}' \
   --max-model-len 131072 \
@@ -86,7 +89,7 @@ echo "vLLM READY"
 python predict.py > predict.log 2>&1
 
 #--- 評価 -----------------------------------------------------------
-OPENAI_API_KEY=xxx python judge.py
+python judge.py > judge.log 2>&1
 
 #--- 後片付け -------------------------------------------------------
 kill $pid_vllm
