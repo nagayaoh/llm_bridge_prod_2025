@@ -1,3 +1,7 @@
-OpenAI: YOURKEY
-HuggingFace: YOURKEY
-Anthropic: YOURKEY
+# API Keys - Set these as environment variables
+# OpenAI: Set OPENAI_API_KEY environment variable
+# HuggingFace: Set HUGGINGFACE_TOKEN environment variable  
+# Anthropic: Set ANTHROPIC_API_KEY environment variable
+OpenAI: "YOUR_OPENAI_API_KEY"
+HuggingFace: "YOUR_HUGGINGFACE_TOKEN"
+Anthropic: "YOUR_ANTHROPIC_API_KEY"
