@@ -51,12 +51,14 @@ ipython_config.py
 transformers_cache/
 huggingface_hub/
 
-# Model files and checkpoints
+# Model files and checkpoints (but keep template configs)
 models/
 checkpoints/
 *.model
 *.ckpt
 model_*
+!*-TEMPLATE/*/model_*
+!*-TEMPLETE/*/model_*
 checkpoint-*/
 pytorch_model.bin
 config.json
@@ -66,8 +68,10 @@ special_tokens_map.json
 vocab.txt
 merges.txt
 
-# Datasets
+# Datasets (but keep template datasets)
 datasets/
+!*-TEMPLATE/datasets/
+!*-TEMPLETE/datasets/
 data/
 *.jsonl
 *.json
@@ -145,12 +149,15 @@ train/cache/
 eval_hle_*/
 eval_dna_*/
 ZZZ*/
+
+# Exclude XX- directories but keep templates (order matters!)
 XX-*/
+!XX-*-TEMPLATE/
+!XX-*-TEMPLETE/
 
 # But keep template directories
 !*-TEMPLATE/
 !*-TEMPLETE/
-!XX-*-TEMPLATE/
 
 # Large files
 *.tar
